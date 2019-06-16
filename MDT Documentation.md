@@ -3,8 +3,7 @@ title: Miami-Dade County Public Transportation Documentation 1.0 (June 2019)
 author: 'Alejandra Agredo (CC0: Public Domain)'
 ---
 
-Introduction
-============
+# Introduction
 
 There are various public transportation systems in Miami-Dade County, each
 belonging to a separate technical cluster of APIs. Many of these systems are
@@ -42,8 +41,7 @@ shape and stops from Miami-Dade Transit GTFS. Route data from the GTFS should be
 *entirely discarded* for all trolley routes whenever data from TSO Mobile is
 available.
 
-Discrepancies
--------------
+# Discrepancies
 
 There’s inconsistency between the Miami-Dade Transit GTFS and what routes are
 actually being serviced. As a result, there are at least 40 routes that do not
@@ -58,11 +56,9 @@ GTFS, but is available from TSO Mobile with real-time information. The route
 data and real-time arrivals should be displayed to the user like any other
 route. It should also be factored in for trip planning if possible.
 
-Reference
-=========
+# Reference
 
-Real-Time Data Feeds
---------------------
+## Real-Time Data Feeds
 
 | **Provider**           | **Feed Label**       | **Base URL**                                                                   |
 |------------------------|----------------------|--------------------------------------------------------------------------------|
@@ -75,8 +71,7 @@ Real-Time Data Feeds
 | Transitime             | Tri-Rail             | <https://transitime-api.goswift.ly/api/v1/key/81YENWXv/agency/trirail/command> |
 | Transitime             | Miami-Dade Transit   | <https://transitime-api.goswift.ly/api/v1/key/81YENWXv/agency/miami/command>   |
 
-Static Transit
---------------
+## Static Transit
 
 The three large transit systems can all be fetched live from a server.
 
@@ -86,8 +81,7 @@ The three large transit systems can all be fetched live from a server.
 | Tri-Rail/SFRTA            | <https://www.tri-rail.com/GTDF/Current/google_transit.zip>               |
 | Brightline Trains         | <https://gobrightline.com/gtfs/gtfs.zip>                                 |
 
-TSO Mobile Agencies
--------------------
+## TSO Mobile Agencies
 
 | **Service Name**                      | **Vehicle Type** | **Company ID** |
 |---------------------------------------|------------------|----------------|
@@ -105,8 +99,7 @@ TSO Mobile Agencies
 | SoMi Shuttle                          | Jitney           | `34423`        |
 | Miami Gardens Express                 | Trolley          | `21699`        |
 
-Miami-Dade Transit GTFS/TSO Mobile Route Mappings
--------------------------------------------------
+## Miami-Dade Transit GTFS/TSO Mobile Route Mappings
 
 This is an extensive list best served by a configuration file. See
 <https://github.com/cscape/wayline-config/blob/master/config.toml> for a TOML
@@ -114,11 +107,9 @@ representation of route mappings to and from Miami-Dade Transit GTFS internal
 route IDs and TSO Mobile internal route IDs. An exportable JavaScript module is
 provided at <https://github.com/cscape/wayline-config>
 
-Real-Time Transit (Miami-Dade Transit)
-======================================
+# Real-Time Transit (Miami-Dade Transit)
 
-Metrorail and Metrobus (Transitime)
------------------------------------
+## Metrorail and Metrobus (Transitime)
 
 Since Metrorail and Metrobus AVL data is sent directly to the Transitime server,
 it can be fetched as GTFS Realtime by calling the Transitime Miami-Dade Transit
@@ -130,16 +121,16 @@ recommended for the Metrorail and Metrobus.
 Fetch the vehicle positions as a GTFS Realtime Vehicle Positions feed by calling
 `/vehiclePositions` as follows:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET https://transitime-api.goswift.ly/api/v1/key/81YENWXv/agency/miami/command/gtfs-rt/vehiclePositions
 GET https://transitime-api.goswift.ly/api/v1/key/81YENWXv/agency/miami/command/gtfs-rt/vehiclePositions?format=json
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 In the second GET request, the `format` parameter can be added to make the
 response return in `json` or `human` (a human-readable version of the default
 protocol buffer response). The response in JSON would look like the following:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ json
+```json
 {
   "header": {
     "gtfsRealtimeVersion": "2.0",
@@ -170,7 +161,7 @@ protocol buffer response). The response in JSON would look like the following:
     }
   }]
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 **Note:** In the response above, the vehicle ID is also the entity ID. **Any
 vehicle ID that begins with “AT” or “LSF” should be treated specially**, as
@@ -185,14 +176,14 @@ duplicate data.
 Similar to the Vehicle Positions feed, this is a GTFS Realtime Trip Updates
 feed. It can be fetched by calling `/tripUpdates` as follows:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET https://transitime-api.goswift.ly/api/v1/key/81YENWXv/agency/miami/command/gtfs-rt/tripUpdates
-https://transitime-api.goswift.ly/api/v1/key/81YENWXv/agency/miami/command/gtfs-rt/tripUpdates?format=json
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET https://transitime-api.goswift.ly/api/v1/key/81YENWXv/agency/miami/command/gtfs-rt/tripUpdates?format=json
+```
 
 The JSON response will be similar to this:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ json
+```json
 {
   "header": {
     "gtfsRealtimeVersion": "2.0",
@@ -231,14 +222,13 @@ The JSON response will be similar to this:
     }
   }]
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 Notice the “LSF” in the vehicle ID. The data from the GTFS Realtime Trip Updates
 may be used for contracted vehicles and routes, but is **not recommended**. Do
 not include it unless data from TSO Mobile is unavailable.
 
-Metrobus\* and Trolleys
------------------------
+## Metrobus\* and Trolleys
 
 This section applies for the transit systems which use TSO Mobile for fleet
 tracking. Namely, this includes certain Metrobus routes (including 35/35A) and
@@ -262,7 +252,7 @@ Mobile’s API.
 #### Miami-Dade Transit Special Exception
 
 There are nearly 30 routes operated by a private contractor for Miami-Dade
-Transit (see<https://publictransportation.tsomobile.com/mdt.htm>, and the
+Transit (see <https://publictransportation.tsomobile.com/mdt.htm>, and the
 GTFS/TSO Route Mappings in the reference). In the Transitime feeds for
 Miami-Dade Transit, vehicle IDs will sometimes begin prefixed with “LSF”
 (Limousines of South Florida) or “AT” (America’s Transportation). In the TSO
@@ -317,33 +307,33 @@ to it is in the form of parameters. Responses will be returned as string-encoded
 JSON that will need to be unescaped and parsed. The following are examples of
 real responses from the API:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 "{\"stops\":{},\"routes\":{},\"points\":{}}"
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 "[]"
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 #### GET Routes
 
-| **Name​** | **Required** | **Description**                    | **Example** |
+| **Name** | **Required** | **Description**                    | **Example** |
 |----------|--------------|------------------------------------|-------------|
 | key      | required     | The method to use for this request | `routes`    |
 | id       | required     | Company ID (see reference)         | `21241`     |
 
 ##### Example Request
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET https://rest.tsoapi.com/PubTrans/GetModuleInfoPublic?key=routes&id=26082
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ##### Example Response
 
 This is the result after parsing the response. The `ID` property here refers to
 the route ID and the `RoutePath` uses standard polyline encoding.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```json
 [{
   "ID": "102216",
   "Name": "Blue Express Route",
@@ -352,7 +342,7 @@ the route ID and the `RoutePath` uses standard polyline encoding.
   "StopIcon": "Stop_Small_Blue.png",
   "UnitIcon": "Unit_Blue.png"
 }]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 #### GET Route Stops
 
@@ -363,9 +353,9 @@ the route ID and the `RoutePath` uses standard polyline encoding.
 
 ##### Example Request
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET https://rest.tsoapi.com/PubTrans/GetModuleInfoPublic?key=route_stops&id=102216
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ##### Example Response
 
@@ -373,7 +363,7 @@ This is the result after parsing the response. The array of stops contains an
 `ID` property which refers to the internal stop ID. The `Description` property
 refers to the user-facing stop name.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```json
 [{
   "ID": "1155598",
   "StopNumber": "1001",
@@ -411,7 +401,7 @@ refers to the user-facing stop name.
   "DirectionName": "",
   "Direction": ""
 }]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 #### GET Vehicle Positions
 
@@ -422,9 +412,9 @@ refers to the user-facing stop name.
 
 ##### Example Request
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET https://rest.tsoapi.com/PubTrans/GetModuleInfoPublic?key=units_location_route&id=85862
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ##### Example Response
 
@@ -435,7 +425,7 @@ was last updated. `StopA` represents the previous vehicle stop, and `StopB`
 represents the next stop. If `RealStopID` is not an empty string, then it means
 that the vehicle is currently at that stop.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```json
 [{
   "ID": "1057402",
   "ShortName": "MB21",
@@ -465,7 +455,7 @@ that the vehicle is currently at that stop.
   "AntibunchingCmd": "3",
   "Occupation": "0"
 }]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 #### GET Stop Info
 
@@ -476,9 +466,9 @@ that the vehicle is currently at that stop.
 
 ##### Example Request
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET https://rest.tsoapi.com/PubTrans/GetModuleInfoPublic?key=stopinfo&id=1067128
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ##### Example Response
 
@@ -487,7 +477,7 @@ short-name like the 212 Sweetwater Trolley), the `Description` property will
 exactly match the stop name in the Miami-Dade Transit GTFS file. This is useful
 for merging ETAs between the Transitime and TSO Mobile feeds.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```json
 [{
   "RouteName": "Route - 72A",
   "ID": "1067128",
@@ -499,10 +489,9 @@ for merging ETAs between the Transitime and TSO Mobile feeds.
   "ETAResult": "1",
   "ETASeconds": "1624"
 }]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-Metromover, Metrobus, and Metrorail (XML Feed)
-----------------------------------------------
+## Metromover, Metrobus, and Metrorail (XML Feed)
 
 Most commonly, the Miami-Dade Transit XML feed is used to fetch data from the
 Metrobus, Metrorail, and Metromover. This is done by fetching the `/Buses` and
@@ -525,13 +514,13 @@ The location of all Metromovers, with direction and speed. This is updated
 roughly every 10-15 seconds. This feed can be fetched by calling `/MoverTrains`
 on either the verbose or basic feed as follows:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET https://www.miamidade.gov/transit/mobile/xml/MoverTrains/
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 This would return a response similar to this:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xml
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <MoverTrains>
     <Train>
@@ -551,7 +540,7 @@ This would return a response similar to this:
         <LocationUpdatedDiffBasic>5</LocationUpdatedDiffBasic>
     </Train>
 </MoverTrains>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 #### Station Arrivals
 
@@ -559,16 +548,16 @@ The arrival estimates and some other station information for the Metromovers.
 This feed can be fetched by calling `/MoverTracker` on either the verbose or
 basic feed as follows:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET https://www.miamidade.gov/transit/WebServices/MoverTrains/
 GET https://www.miamidade.gov/transit/mobile/xml/MoverTracker/?StationID=GVT
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 **Note:** The verbose feed does return more information, including a fifth
 arrival time and a RiderAlert field, but it **requires** the StationID
 parameter. The following is an example response of the verbose feed:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xml
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <MoverTracker>
     <Info>
@@ -644,13 +633,11 @@ parameter. The following is an example response of the verbose feed:
         <fifthTime2_ServiceTypeID></fifthTime2_ServiceTypeID>
     </Info>
 </MoverTracker>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-Real-Time Transit (Tri-Rail/SFRTA)
-==================================
+# Real-Time Transit (Tri-Rail/SFRTA)
 
-Commuter Rail and Connector Buses
----------------------------------
+## Commuter Rail and Connector Buses
 
 Tri-Rail/SFRTA and their connector buses’ AVL data is sent directly to the same
 Transitime server as the Metrobus and Metrorail for Miami-Dade Transit. The data
@@ -659,8 +646,7 @@ using the `/gtfs-rt` endpoint. **This data is very reliable and accurate.**
 There are no known “gotchas” with this system, and the same API applies for
 Transitime data. (see Transitime Vehicle Positions and Trip Updates)
 
-Real-Time Transit (Coral Gables Trolley, Tri-Rail/SFRTA)
-========================================================
+# Real-Time Transit (Coral Gables Trolley, Tri-Rail/SFRTA)
 
 This section deals only with ETA Transit. The same principle of wholly
 discarding Coral Gables Trolley data from the Miami-Dade Transit GTFS also
@@ -670,8 +656,7 @@ purposes). Tri-Rail/SFRTA shares the same system with Coral Gables Trolley, and
 both may be treated the same way. However, **it is highly recommended to use the
 Transitime feed whenever possible for Tri-Rail/SFRTA**.
 
-API
----
+## API
 
 All valid responses should return plain JSON. The API endpoint varies based on
 the serviced agency, but generally follows the syntax
@@ -693,13 +678,13 @@ also include vehicles not currently running.
 
 #### Example Request
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET http://trirailpublic.etaspot.net/service.php?service=get_vehicles&includeETAData=1&orderedETAArray=1
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 #### Example Response
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```json
 {
   "get_vehicles": [
     {
@@ -762,7 +747,7 @@ GET http://trirailpublic.etaspot.net/service.php?service=get_vehicles&includeETA
     }
   ]
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ### get_routes
 
@@ -770,16 +755,16 @@ Returns a JSON object containing an array of route objects.
 
 #### Example Request
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET http://trirailpublic.etaspot.net/service.php?service=get_routes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-#### <https://github.com/cscape/miamitransit-docs/wiki/ETA-Transit-API#example-response-2>Example Response
+#### Example Response
 
 The `encLine` property in each route object is a regular polyline, and `vType`
 is usually either “Bus” or “Train”.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```json
 {
   "get_routes": [{
     "abbr": "TR",
@@ -797,22 +782,22 @@ is usually either “Bus” or “Train”.
     "vType": "Train"
   }]
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ### get_patterns
 
 Returns a JSON object containing an array of pattern objects. This endpoint
 contains information on route lengths (distance-wise in miles)
 
-#### <https://github.com/cscape/miamitransit-docs/wiki/ETA-Transit-API#example-request-3>Example Request
+#### Example Request
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET http://trirailpublic.etaspot.net/service.php?service=get_patterns
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-#### <https://github.com/cscape/miamitransit-docs/wiki/ETA-Transit-API#example-response-3>Example Response
+#### Example Response
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```json
 {
   "get_patterns": [{
     "color": "#2E3191",
@@ -828,9 +813,9 @@ GET http://trirailpublic.etaspot.net/service.php?service=get_patterns
     "type": 1
   }]
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-### <https://github.com/cscape/miamitransit-docs/wiki/ETA-Transit-API#get_stops>get_stops
+### get_stops
 
 Returns a JSON object containing an array of stop objects. The stop objects are
 not all unique, some overlap. Each stop’s unique identifier is in
@@ -838,7 +823,7 @@ the `id` property, which can be used to merge together stop information. Exact
 stop locations may vary even for those with the same `id`, make sure to be aware
 of this.
 
-#### <https://github.com/cscape/miamitransit-docs/wiki/ETA-Transit-API#parameters-1>Parameters
+#### Parameters
 
 | **Name** | **Required** | **Description**                                                                                                      | **Example** |
 |----------|--------------|----------------------------------------------------------------------------------------------------------------------|-------------|
@@ -846,13 +831,13 @@ of this.
 
 #### Example Request
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET http://trirailpublic.etaspot.net/service.php?service=get_stops&stopIDs=2
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-#### <https://github.com/cscape/miamitransit-docs/wiki/ETA-Transit-API#example-response-4>Example Response
+#### Example Response
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```json
 {
   "get_stops": [
     {
@@ -875,7 +860,7 @@ GET http://trirailpublic.etaspot.net/service.php?service=get_stops&stopIDs=2
     }
   ]
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ### get_stop_etas
 
@@ -889,13 +874,13 @@ Returns a JSON object containing an array of ETAs for a stop.
 
 #### Example Request
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET http://trirailpublic.etaspot.net/service.php?service=get_stop_etas&stopIDs=14
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 #### Example Response
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```json
 {
   "get_stop_etas": [{
     "enRoute": [{
@@ -917,10 +902,9 @@ GET http://trirailpublic.etaspot.net/service.php?service=get_stop_etas&stopIDs=1
     "id": 14
   }]
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-Real-Time Transit (Brightline)
-==============================
+# Real-Time Transit (Brightline)
 
 This is among the simplest of all systems to implement, since the GTFS file is
 well-done and the train status API is simple to work with. However, there is no
@@ -928,8 +912,7 @@ known way to track vehicle positions. This is not a major issue since the trains
 only board at the stations and the real-time arrival estimates are very
 accurate.
 
-Train Arrival and Departure Times
----------------------------------
+## Train Arrival and Departure Times
 
 There exist other APIs, however, the Train Status API is the most relevant one
 for trip planning and most usage purposes. This returns an array of all trains
@@ -948,9 +931,9 @@ the Brightline GTFS.
 
 ### Example Request
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 GET https://luxapi.verbinteractive.com/api/TrainStatus?arrival=PBI&departureDate=2019-06-16
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ### Example Response
 
@@ -965,7 +948,7 @@ its color, such as “Bright Red is now boarding” and “The Bright Green trai
 on the left-hand track.” This is useful information for a rider and should be
 included (such as a colored indicator next to a station’s ETAs).
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```json
 [{
   "actualArrival": null,
   "actualArrivalPlatform": "1",
@@ -1055,4 +1038,4 @@ included (such as a colored indicator next to a station’s ETAs).
   "segmentStatus": "On-Time",
   "train": "710"
 }]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
