@@ -1,6 +1,5 @@
 # [Miami-Dade County Public Transportation Documentation](MDT%20Documentation.md)
 
-Documentation for Miami Dade County (and included systems) transit APIs. 
 **Complete documentation** is available in [MDT Documentation.md](MDT%20Documentation.md)
 
 Looking for the old docs? [**See the wiki**](https://github.com/cscape/miamitransit-docs/wiki)
