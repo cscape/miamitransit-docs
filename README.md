@@ -1,3 +1,12 @@
-# [Miami Transit Documentation 🠞](https://github.com/cscape/miamitransit-docs/wiki)
+# [Miami-Dade County Public Transportation Documentation](MDT%20Documentation.md)
 
-Documentation for Miami Dade County (and included cities) transit APIs. [**Read the wiki** 🠞](https://github.com/cscape/miamitransit-docs/wiki)
+Documentation for Miami Dade County (and included systems) transit APIs.
+
+**Complete documentation** is available in [MDT Documentation.md](MDT%20Documentation.md)
+
+Looking for the old docs? [**See the wiki**](https://github.com/cscape/miamitransit-docs/wiki)
+
+
+# License
+
+All documentation written here is in the [Public Domain](https://creativecommons.org/publicdomain/zero/1.0/). *To the extent possible under law, Cyberscape and all authors who associated CC0 with this work have waived all copyright and related or neighboring rights to this work.*
