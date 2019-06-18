@@ -1,5 +1,5 @@
 ---
-title: Miami-Dade County Public Transportation Documentation 1.0 (June 2019)
+title: Miami-Dade County Public Transportation Documentation 1.1 (June 2019)
 author: 'Alejandra Agredo (CC0: Public Domain)'
 ---
 
@@ -113,8 +113,9 @@ provided at <https://github.com/cscape/wayline-config>
 
 Since Metrorail and Metrobus AVL data is sent directly to the Transitime server,
 it can be fetched as GTFS Realtime by calling the Transitime Miami-Dade Transit
-feed and using the `/gtfs-rt` endpoint. **This data is very reliable** and
-recommended for the Metrorail and Metrobus.
+feed and using the `/gtfs-rt` endpoint. This data is
+recommended for the Metrorail and Metrobus. When it's unavailable, or missing bus 
+data, then use the Miami-Dade Transit XML Verbose feed as a fallback.
 
 ### Vehicle Positions
 
@@ -497,9 +498,11 @@ Most commonly, the Miami-Dade Transit XML feed is used to fetch data from the
 Metrobus, Metrorail, and Metromover. This is done by fetching the `/Buses` and
 `/Trains` endpoint on either the verbose or basic feed.
 
-**This data is slow to update for buses (up to 40 minute delays) and may be
-prone to errors and inconsistencies. Please use the Transitime feed for the
-Metrorail and Metrobus whenever possible.**
+**The XML feed should be used as a fallback for the Metrorail and Metrobus, as 
+the Transitime feed may sometimes (rarely) have missing vehicle data.**
+
+Please see <https://www.miamidade.gov/transit/WebServices/Transit_XML_Data_Feeds.pdf> 
+for documentation, and use the Miami-Dade Transit XML **Verbose** feed.
 
 ### Metromovers
 
