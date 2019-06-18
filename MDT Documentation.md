@@ -19,9 +19,9 @@ systems, please see the reference):
 
 -   **ETA Transit**: SFRTA/Tri-Rail, Coral Gables Trolley
 
--   **Transitime**: Miami-Dade Transit (Metrobus, Metrorail)
+-   **Transitime**: Miami-Dade Transit (Metrobus, Metrorail), SFRTA/Tri-Rail
 
--   **Miami-Dade Transit XML Feed**: Miami-Dade Transit (Metromover)
+-   **Miami-Dade Transit XML Feed**: Miami-Dade Transit (Metrobus, Metrorail, Metromover)
 
 -   **Brightline**: Brightline Trains
 
